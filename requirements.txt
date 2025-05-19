@@ -1,0 +1,8 @@
+fastapi
+uvicorn[standard]
+pydantic
+aiohttp
+sse-starlette
+python-multipart
+openai>=1.0.0
+mcp

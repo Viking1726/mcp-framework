@@ -1,0 +1,28 @@
+version: '3.8'
+
+services:
+  mcp-framework:
+    build: .
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./config.json:/app/config.json
+      - ./logs:/app/logs
+      - /xxxx:/data  # MCP 文件系统访问路径
+    environment:
+      - PYTHONUNBUFFERED=1
+    restart: unless-stopped
+    networks:
+      - mcp-network
+
+  # 如果需要运行 LM Studio，可以添加它的容器配置
+  # lm-studio:
+  #   image: lmstudio/lmstudio:latest
+  #   ports:
+  #     - "1234:1234"
+  #   networks:
+  #     - mcp-network
+
+networks:
+  mcp-network:
+    driver: bridge

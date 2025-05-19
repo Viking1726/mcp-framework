@@ -1,0 +1,141 @@
+{
+    "server": {
+        "host": "0.0.0.0",
+        "port": 8000,
+        "api_prefix": "/v1",
+        "cors": {
+            "enabled": true,
+            "origins": [
+                "*"
+            ]
+        }
+    },
+    "llm_service": {
+        "base_url": "http://localhost:1234/v1",
+        "model": "qwen3-30b-a3b-mlx",
+        "timeout": 6000,
+        "max_tokens": 4000,
+        "temperature": 0.1,
+        "api_key": "sk-your-openai-api-key",
+        "max_retries": 2
+    },
+    "mcp_servers": [
+        {
+            "id": "time",
+            "name": "时间",
+            "command": "uvx",
+            "args": [
+                "mcp-server-time",
+                "--local-timezone=Asia/ShangHai"
+            ],
+            "enabled": true
+        },
+        {
+            "id": "filesystem",
+            "name": "文件系统服务",
+            "command": "npx",
+            "args": [
+                "-y",
+                "@modelcontextprotocol/server-filesystem",
+                "/Users/viking/mcp-filesystem"
+            ],
+            "enabled": true
+        },
+        {
+            "id": "memory",
+            "name": "记忆",
+            "command": "npx",
+            "args": [
+                "-y",
+                "@modelcontextprotocol/server-memory"
+            ],
+            "enabled": false
+        },
+        {
+            "id": "firecrawl",
+            "name": "浏览器自动化服务",
+            "command": "npx",
+            "args": [
+                "-y",
+                "firecrawl-mcp"
+            ],
+            "env": {
+                "FIRECRAWL_API_KEY": "fc-37238912dd9048ac9635f5559e23c16a"
+            },
+            "enabled": true,
+            "timeout": 120,
+            "init_timeout": 10
+        },
+        {
+            "id": "playwright",
+            "name": "浏览器自动化服务",
+            "command": "npx",
+            "args": [
+                "-y",
+                "@playwright/mcp@latest",
+                "--vision"
+            ],
+            "enabled": false,
+            "timeout": 120,
+            "init_timeout": 10
+        },
+        {
+            "id": "puppeteer",
+            "name": "浏览器自动化服务",
+            "command": "npx",
+            "args": [
+                "-y",
+                "@modelcontextprotocol/server-puppeteer"
+            ],
+            "enabled": false,
+            "timeout": 120,
+            "init_timeout": 10
+        },
+        {
+            "id": "fetch",
+            "name": "网络抓取服务",
+            "command": "uvx",
+            "args": [
+                "mcp-server-fetch"
+            ],
+            "enabled": false,
+            "timeout": 60,
+            "init_timeout": 10
+        },
+        {
+            "id": "sqlite",
+            "name": "sqlite数据库",
+            "command": "uvx",
+            "args": [
+                "mcp-server-sqlite",
+                "--db-path",
+                "/xx/xx.db"
+            ],
+            "enabled": true,
+            "timeout": 30,
+            "init_timeout": 10
+        },
+        {
+            "id": "sequential-thinking",
+            "name": "顺序思维",
+            "command": "npx",
+            "args": [
+                "-y",
+                "@modelcontextprotocol/server-sequential-thinking"
+            ],
+            "enabled": true,
+            "timeout": 30,
+            "init_timeout": 10
+        }
+    ],
+    "sessions": {
+        "timeout": 3600,
+        "max_active": 100
+    },
+    "logging": {
+        "level": "info",
+        "file": "mcp-framework.log"
+    },
+    "llm_continue_prompt": "请根据工具执行的结果继续完成任务。确保使用完整的工具名称，例如 'sqlite_list_tables' 而不是 'list_tables'。",
+    "llm_tool_choice": "auto"
+}
