@@ -258,10 +258,17 @@ class ChatHandler:
             state["accumulated_content"] += delta["content"]
 
         # 收集工具调用
+        # if "tool_calls" in delta:
+        #     # 处理每个工具调用
+        #     for tool_call in delta.get("tool_calls", []):
+        #         self._collect_tool_call(state["tool_calls_data"], tool_call)
+        # 收集工具调用
+
         if "tool_calls" in delta:
-            # 处理每个工具调用
-            for tool_call in delta.get("tool_calls", []):
-                self._collect_tool_call(state["tool_calls_data"], tool_call)
+            tool_calls = delta["tool_calls"]
+            if tool_calls:  # 这样既检查了None也检查了空列表
+                for tool_call in tool_calls:
+                    self._collect_tool_call(state["tool_calls_data"], tool_call)
 
         # 处理整个消息（非增量情况）
         if "message" in choice:
