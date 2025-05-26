@@ -37,7 +37,7 @@
             "args": [
                 "-y",
                 "@modelcontextprotocol/server-filesystem",
-                "/Users/viking/mcp-filesystem"
+                "/xx/xx/mcp-filesystem"
             ],
             "enabled": true
         },
